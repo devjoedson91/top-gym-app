@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        signIn: "url('../assets/bg-sign-img.png')",
+      },
       colors: {
         default: "#121214",
         secondary: "#202024",
@@ -30,11 +33,6 @@ const config = {
         gray_200: "#C4C4CC",
         gray_100: "#E1E1E6",
         red_default: "#DC1637",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
