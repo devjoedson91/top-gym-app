@@ -10,8 +10,7 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-// import { Auth } from "@/hooks/auth";
+import { Auth } from "@/hooks/auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
@@ -33,14 +32,12 @@ export default function Home() {
     resolver: zodResolver(formSchema),
   });
 
-  // const { signIn } = useContext(Auth);
+  const { signIn, loadingAuth } = useContext(Auth);
 
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-
   async function handleSubmit(data: z.infer<typeof formSchema>) {
-    // await signIn(data);
+    await signIn(data);
   }
 
   return (
@@ -110,7 +107,7 @@ export default function Home() {
             type="submit"
             className="bg-green_700 border-none hover:bg-green_700/60 h-12 uppercase tracking-widest w-80 rounded-md text-sm"
             variant="outline"
-            disabled={loading}
+            disabled={loadingAuth}
           >
             Acessar
           </Button>
