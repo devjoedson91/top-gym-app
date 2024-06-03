@@ -48,7 +48,7 @@ export default function Home() {
           className="flex flex-col items-center gap-8 z-[1]"
         >
           <div className="flex flex-col items-center justify-center gap-2">
-            <Barbell size={55} color="#00B37E" />
+            <Barbell size={65} color="#00B37E" />
             <h1 className="font-bold text-3xl">Top Gym</h1>
             <p className="font-medium text-base">
               Treine sua mente e seu corpo
