@@ -98,10 +98,14 @@ export default function Dashboard() {
           <div className="h-80 flex items-center justify-center">
             <Loading />
           </div>
-        ) : (
+        ) : exercises.length ? (
           exercises.map((item) => {
             return <ExerciseButton key={item.id} item={item} />;
           })
+        ) : (
+          <h1 className="text-center mt-16">
+            Não encontramos exercícios para o grupo muscular selecionado 😐
+          </h1>
         )}
       </div>
     </div>
