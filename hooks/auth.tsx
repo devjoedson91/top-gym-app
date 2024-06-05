@@ -16,7 +16,6 @@ type UserInfoProps = {
   id: string;
   name: string;
   email: string;
-  password: string;
   avatar: string | null;
 };
 
@@ -31,6 +30,7 @@ type AuthProviderProps = {
 
 type AuthContextData = {
   user: UserProps;
+  me: UserInfoProps;
   isAuthenticated: boolean;
   loadingAuth: boolean;
   signIn: (credentials: SignInProps) => Promise<void>;
@@ -41,6 +41,8 @@ export const Auth = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const { toast } = useToast();
+
+  const router = useRouter();
 
   const [user, setUser] = useState<UserProps>({
     id: "",
@@ -53,15 +55,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     id: "",
     name: "",
     email: "",
-    password: "",
     avatar: null,
   });
 
   const [loadingAuth, setLoadingAuth] = useState(false);
 
   const isAuthenticated = !!user;
-
-  const router = useRouter();
 
   useEffect(() => {
     const { "@topgym.token": token } = parseCookies();
@@ -70,12 +69,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api
         .get("/me")
         .then((response) => {
-          const { id, name, email } = response.data;
+          const { id, name, email, avatar } = response.data;
 
           setUser({ id, name, email, token });
+
+          setMe({ id, name, email, avatar });
         })
-        .catch(() => {
+        .catch((error: any) => {
           signOut();
+          toast({
+            description:
+              "erro ao carregar informações do usuario: " +
+              error.response?.data.error,
+            variant: "destructive",
+          });
         });
     }
 
@@ -129,7 +136,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <Auth.Provider
-      value={{ signIn, signOut, isAuthenticated, user, loadingAuth }}
+      value={{ signIn, signOut, isAuthenticated, user, loadingAuth, me }}
     >
       {children}
     </Auth.Provider>
