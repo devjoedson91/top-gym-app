@@ -19,21 +19,27 @@ export default function Dashboard() {
 
   const [loading, setLoading] = useState(false);
 
-  const { data: categories, isLoading } = useQuery("categories", () => {
-    return api
-      .get("/categories")
-      .then((response) => {
-        setMuscleSelected(response.data[0]);
+  const { data: categories, isLoading } = useQuery(
+    "categories",
+    () => {
+      return api
+        .get("/categories")
+        .then((response) => {
+          setMuscleSelected(response.data[0]);
 
-        return response.data as CategoriesProps[];
-      })
-      .catch(() => {
-        toast({
-          description: "Falha ao carregar categorias de treino",
-          variant: "destructive",
+          return response.data as CategoriesProps[];
+        })
+        .catch(() => {
+          toast({
+            description: "Falha ao carregar categorias de treino",
+            variant: "destructive",
+          });
         });
-      });
-  });
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   async function listExercises() {
     try {
