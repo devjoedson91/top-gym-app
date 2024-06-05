@@ -7,10 +7,9 @@ import { api } from "@/services/apiClient";
 import { useToast } from "@/components/ui/use-toast";
 import { CategoriesProps, ExerciseDetailProps } from "@/types";
 import Loading from "@/components/ui/loading";
-import { Button } from "@/components/ui/button";
 import ExerciseButton from "./_components/exercise-button";
 
-export default function Dashboard() {
+export default function Home() {
   const { toast } = useToast();
 
   const [muscleSelected, setMuscleSelected] = useState<CategoriesProps>();

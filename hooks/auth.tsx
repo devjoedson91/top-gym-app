@@ -122,7 +122,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
-      router.push("/dashboard");
+      router.push("/screen-navigation");
     } catch (err: any) {
       toast({
         title: "Não foi possível realizar o login:",

@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/auth";
 import { QueryClientProvider, QueryClient } from "react-query";
+import TabControlProvider from "@/hooks/tab-control";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -25,10 +26,12 @@ export default function RootLayout({
       </head>
       <body className={`${roboto.className} antialiased text-white bg-default`}>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <main>{children}</main>
-            <Toaster />
-          </AuthProvider>
+          <TabControlProvider>
+            <AuthProvider>
+              <main>{children}</main>
+              <Toaster />
+            </AuthProvider>
+          </TabControlProvider>
         </QueryClientProvider>
       </body>
     </html>
