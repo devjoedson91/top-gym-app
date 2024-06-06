@@ -105,7 +105,7 @@ export default function Home() {
           />
           <Button
             type="submit"
-            className="bg-green_700 border-none hover:bg-green_700/60 h-12 uppercase tracking-widest w-80 rounded-md text-sm"
+            className="bg-green700 border-none hover:bg-green700/60 h-12 uppercase tracking-widest w-80 rounded-md text-sm"
             variant="outline"
             disabled={loadingAuth}
           >
