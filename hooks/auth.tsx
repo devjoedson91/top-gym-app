@@ -65,29 +65,43 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const { "@topgym.token": token } = parseCookies();
 
-    if (token) {
-      api
-        .get("/me")
-        .then((response) => {
-          const { id, name, email, avatar } = response.data;
+    const hasUser: UserProps = JSON.parse(token || "{}");
 
-          setUser({ id, name, email, token });
+    if (Object.keys(hasUser).length > 0) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${hasUser.token}`;
 
-          setMe({ id, name, email, avatar });
-        })
-        .catch((error: any) => {
-          signOut();
-          toast({
-            description:
-              "erro ao carregar informações do usuario: " +
-              error.response?.data.error,
-            variant: "destructive",
-          });
-        });
+      setUser({
+        id: hasUser.id,
+        name: hasUser.name,
+        email: hasUser.email,
+        token: hasUser.token,
+      });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    !!user.name && userInfo();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  async function userInfo() {
+    try {
+      const response = await api.get("/me");
+
+      setMe(response.data);
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        toast({
+          description:
+            "Falha ao carregar dados do usuário, entre novamente com seu email e senha",
+          variant: "destructive",
+        });
+      }
+    }
+  }
 
   function signOut() {
     try {
@@ -111,24 +125,39 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      const { id, name, token } = response.data;
+      const data = { ...response.data };
 
-      setCookie(undefined, "@topgym.token", token, {
+      setCookie(undefined, "@topgym.token", JSON.stringify(data), {
         maxAge: 60 * 60 * 24 * 30,
         path: "/",
       });
 
-      setUser({ id, name, email, token });
+      setUser({ id: data.id, name: data.name, email, token: data.token });
 
-      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
 
       router.push("/screen-navigation");
-    } catch (err: any) {
-      toast({
-        title: "Não foi possível realizar o login:",
-        description: err.response?.data.error,
-        variant: "destructive",
-      });
+    } catch (error: any) {
+      switch (error.response.status) {
+        case 400:
+          toast({
+            description:
+              "Instabilidade na conexão com a base dados, contate o suporte",
+            variant: "destructive",
+          });
+          break;
+        case 500:
+          toast({
+            description: "Instabilidade no servidor, contate o suporte",
+            variant: "destructive",
+          });
+          break;
+        default:
+          toast({
+            description: "Não foi possível fazer o login, contate o suporte",
+            variant: "destructive",
+          });
+      }
     } finally {
       setLoadingAuth(false);
     }

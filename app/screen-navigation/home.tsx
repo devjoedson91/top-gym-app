@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import MenuHeader from "./_components/menu-header";
+import HomeHeader from "./_components/home-header";
 import MuscleButton from "./_components/muscle-button";
 import { api } from "@/services/apiClient";
 import { useToast } from "@/components/ui/use-toast";
@@ -38,7 +38,7 @@ export default function Home({ categories }: HomeProps) {
       } else {
         return;
       }
-    } catch (err) {
+    } catch (error: any) {
       toast({
         description: "Erro ao carregar exercícios",
         variant: "destructive",
@@ -66,7 +66,7 @@ export default function Home({ categories }: HomeProps) {
 
   return (
     <div>
-      <MenuHeader />
+      <HomeHeader />
       <div className="flex flex-col gap-7 px-4 my-6">
         <div className="flex w-full gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {categories.map((item) => {

@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 
-const tabs = ["home", "training", "perfil"];
+const tabs = ["home", "training", "profile"];
 
 interface AppControlProps {
   children: ReactNode;
@@ -14,7 +14,7 @@ interface StateProps {
 }
 
 interface ActionProps {
-  readonly type: "home" | "training" | "perfil";
+  readonly type: "home" | "training" | "profile";
   payload?: number;
 }
 
@@ -37,7 +37,7 @@ const tabReducer = (state: StateProps, action: ActionProps) => {
         tabStage: tabs[1],
         currentTab: 2,
       };
-    case "perfil":
+    case "profile":
       return {
         ...state,
         tabStage: tabs[2],

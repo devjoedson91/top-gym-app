@@ -4,7 +4,7 @@ export default function middleware(request: NextRequest) {
   const token = request.cookies.get("@topgym.token")?.value;
 
   const signURL = new URL("/", request.url);
-  const dashboardURL = new URL("/dashboard", request.url);
+  const menuURL = new URL("/screen-navigation", request.url);
 
   if (!token) {
     if (request.nextUrl.pathname === "/") {
@@ -15,10 +15,10 @@ export default function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(dashboardURL);
+    return NextResponse.redirect(menuURL);
   }
 }
 
 export const config = {
-  matcher: ["/", "/dashboard/:path*"],
+  matcher: ["/", "/screen-navigation/:path*"],
 };

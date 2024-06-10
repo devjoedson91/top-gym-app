@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Header from "@/components/ui/header";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import DefaultAvatar from "@/assets/no-perfil.jpg";
@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { Auth } from "@/hooks/auth";
 
-export default function MenuHeader() {
+export default function HomeHeader() {
   const { me, signOut } = useContext(Auth);
 
   return (

@@ -5,10 +5,12 @@ import { AuthTokenError } from "./erros/AuthTokenError";
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
 
+  const cookie = JSON.parse(cookies["@topgym.token"] || "{}");
+
   const api = axios.create({
     baseURL: "http://localhost:3333",
     headers: {
-      Authorization: `Bearer ${cookies["@topgym.token"]}`,
+      Authorization: `Bearer ${cookie.token}`,
     },
   });
 

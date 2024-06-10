@@ -2,16 +2,26 @@ import { Button } from "@/components/ui/button";
 import { ExerciseDetailProps } from "@/types";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ExerciseButtonProps {
   item: ExerciseDetailProps;
 }
 
 export default function ExerciseButton({ item }: ExerciseButtonProps) {
+  const router = useRouter();
+
+  function handleSelectExercise() {
+    const query = encodeURIComponent(JSON.stringify(item));
+
+    router.push(`/details?item=${query}`);
+  }
+
   return (
     <Button
       variant="outline"
       className="bg-gray500 w-full h-28 p-2 border-none rounded-lg flex items-center justify-between"
+      onClick={handleSelectExercise}
     >
       {item.cover ? (
         <Image
