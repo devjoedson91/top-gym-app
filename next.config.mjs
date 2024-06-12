@@ -11,8 +11,20 @@ export const withPWA = {
 };
 
 const nextConfig = {
+  reactStrictMode: true,
   images: {
-    domains: ["img.freepik.com", "tecnofit-site.s3.sa-east-1.amazonaws.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "tecnofit-site.s3.sa-east-1.amazonaws.com",
+        pathname: "**",
+      },
+    ],
   },
 };
 
