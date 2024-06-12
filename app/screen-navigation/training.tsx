@@ -180,8 +180,8 @@ export default function Training() {
                       key={training.id}
                       className="bg-gray500 mb-3 h-auto w-full p-3 rounded-lg flex items-center justify-between"
                     >
-                      <Link href={training.video}>
-                        <div className="flex flex-col gap-3 px-1">
+                      <div className="flex flex-col gap-3 px-1">
+                        <Link href={training.video}>
                           <h1 className="font-medium text-lg text-start">
                             {training.exercise}
                           </h1>
@@ -191,23 +191,23 @@ export default function Training() {
                             <Repeat size={32} color="#00B37E" />
                             <h1 className="font-medium">{`${training.amount_repeat} rept`}</h1>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <button
-                              onClick={() => handlePutAsCompleted(training.id)}
-                            >
-                              <Checkbox
-                                checked={training.is_completed}
-                                className={`${
-                                  training.is_completed && "bg-green500"
-                                }`}
-                              />
-                            </button>
-                            <p className="font-medium text-base">
-                              Marcar como concluído
-                            </p>
-                          </div>
+                        </Link>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => handlePutAsCompleted(training.id)}
+                          >
+                            <Checkbox
+                              checked={training.is_completed}
+                              className={`${
+                                training.is_completed && "bg-green500"
+                              }`}
+                            />
+                          </button>
+                          <p className="font-medium text-base">
+                            Marcar como concluído
+                          </p>
                         </div>
-                      </Link>
+                      </div>
                       <Button
                         size="icon"
                         onClick={() => handlePutAsDeleted(training.id)}
