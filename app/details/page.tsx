@@ -17,7 +17,7 @@ export default function Details({ searchParams }: DetailsProps) {
   const [exercise, setExercise] = useState<ExerciseDetailProps>();
 
   useEffect(() => {
-    setExercise(JSON.parse(searchParams.item));
+    searchParams && setExercise(JSON.parse(searchParams.item));
   }, [searchParams]);
 
   if (!exercise) return null;
