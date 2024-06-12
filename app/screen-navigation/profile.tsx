@@ -135,7 +135,7 @@ export default function Profile() {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -166,7 +166,7 @@ export default function Profile() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <Button type="submit" className="w-80 bg-green700">
               <h1 className="text-lg font-medium">Atualizar</h1>
             </Button>
