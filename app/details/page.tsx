@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import DetailsHeader from "./_components/details-header";
 import { ExerciseDetailProps } from "@/types";
 import { Play } from "@phosphor-icons/react";
@@ -14,11 +14,7 @@ interface DetailsProps {
 export default function Details({ searchParams }: DetailsProps) {
   const { me } = useContext(Auth);
 
-  const [exercise, setExercise] = useState<ExerciseDetailProps>();
-
-  useEffect(() => {
-    searchParams && setExercise(JSON.parse(searchParams.item));
-  }, [searchParams]);
+  const exercise: ExerciseDetailProps = JSON.parse(searchParams.item);
 
   if (!exercise) return null;
 

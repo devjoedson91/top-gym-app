@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+"use client";
+import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
