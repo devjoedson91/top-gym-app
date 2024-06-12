@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -14,27 +14,39 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AlignCenterHorizontal } from "@phosphor-icons/react";
 import { Dumbbell, Repeat } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { number, z } from "zod";
+import { z } from "zod";
+import { useToast } from "@/components/ui/use-toast";
+import { setupAPIClient } from "@/services/api";
+import { Auth } from "@/hooks/auth";
 
 const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
-
 interface FormProps {
   exercise_id: string;
   user_id: string;
 }
 
 const FormSchema = z.object({
-  amount_series: number({ message: "Informe a quantidade de séries" }),
-  amount_repeat: number({ message: "Informe a quantidade de repetições" }),
-  load: number().optional(),
+  amount_series: z
+    .string({ message: "Informe a quantidade de séries" })
+    .min(1, { message: "A quantidade de séries deve ser no mínimo 1" }),
+  amount_repeat: z
+    .string({ message: "Informe a quantidade de repetições" })
+    .min(1, { message: "A quantidade de repetições deve ser no mínimo 1" }),
+  load: z.string().optional(),
 });
 
 export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
+  const { toast } = useToast();
+
+  const { signOut } = useContext(Auth);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   const [days, setDays] = useState<number[]>([]);
+
+  const [loading, setLoading] = useState(false);
 
   function handleToggleWeekDay(weekDayIndex: number) {
     if (days.includes(weekDayIndex)) {
@@ -47,7 +59,55 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
   }
 
   function handleExerciseRegister(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    if (!days.length) {
+      toast({
+        description:
+          "Para concluir, você deve selecionar ao menos um dia da semana.",
+        variant: "destructive",
+      });
+
+      return;
+    }
+
+    setLoading(true);
+
+    const apiClient = setupAPIClient();
+
+    days.map(async (day: number) => {
+      await apiClient
+        .post("/training", {
+          exercise_id,
+          user_id,
+          amount_series: Number(data.amount_series),
+          amount_repeat: Number(data.amount_repeat),
+          load: Number(data.load) ?? 0,
+          day_week: day,
+        })
+        .then((response) => {
+          toast({
+            description: "Exercício adicionado com sucesso!",
+            variant: "success",
+          });
+        })
+        .catch((error: any) => {
+          if (error.response.status === 401) {
+            toast({
+              description: "Sessão Expirada!",
+              variant: "destructive",
+            });
+
+            signOut();
+
+            return;
+          }
+
+          toast({
+            description: error.response?.data.error,
+            variant: "destructive",
+          });
+        })
+        .finally(() => setLoading(false));
+    });
   }
 
   return (
@@ -85,7 +145,7 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="1"
+                    placeholder="0"
                     className="w-14 bg-gray500 text-base rounded-md"
                     {...field}
                   />
@@ -106,7 +166,7 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="1"
+                    placeholder="0"
                     className="w-14 bg-gray500 text-base rounded-md"
                     {...field}
                   />
@@ -120,14 +180,14 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
             control={form.control}
             name="load"
             render={({ field }) => (
-              <FormItem className="flex flex-wrap items-center gap-4 w-3/4">
+              <FormItem className="flex flex-wrap items-center gap-4">
                 <AlignCenterHorizontal size={32} color="#00875F" />
                 <FormLabel className="font-medium text-gray200 text-base">
                   Carga
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="1"
+                    placeholder="0"
                     className="w-14 bg-gray500 text-base rounded-md"
                     {...field}
                   />
@@ -139,6 +199,7 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
           <Button
             type="submit"
             className="rounded-md bg-green700 w-full text-base font-medium"
+            disabled={loading}
           >
             Adicionar exercício
           </Button>

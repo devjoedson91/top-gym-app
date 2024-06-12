@@ -36,7 +36,7 @@ export default function TabNavigation({ children }: TabNavigationProps) {
           className={`${
             state.currentTab === 3 && "text-green700"
           } flex flex-1 flex-col items-center gap-2`}
-          onClick={() => dispatch({ type: "perfil" })}
+          onClick={() => dispatch({ type: "profile" })}
         >
           <UserCircle size={32} />
         </div>
