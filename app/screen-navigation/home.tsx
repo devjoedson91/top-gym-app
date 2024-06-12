@@ -67,7 +67,7 @@ export default function Home({ categories }: HomeProps) {
   return (
     <div>
       <HomeHeader />
-      <div className="flex flex-col gap-7 px-4 my-6">
+      <div className="flex flex-col gap-7 px-5 my-6">
         <div className="flex w-full gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {categories.map((item) => {
             return (
