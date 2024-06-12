@@ -14,7 +14,7 @@ export default function DetailsHeader({ exercise, muscleGroup }: DetailsProps) {
   const router = useRouter();
 
   function handleBackToHome() {
-    router.back();
+    router.push("/screen-navigation");
   }
 
   return (
