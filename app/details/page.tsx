@@ -28,7 +28,7 @@ export default function Details({ searchParams }: DetailsProps) {
         exercise={exercise.name}
         muscleGroup={exercise.categories.muscle}
       />
-      <div className="p-4">
+      <div className="p-5">
         <button className="relative w-full h-48">
           <div className="absolute inset-0 z-[1] hover:bg-black/30 transition duration-300 flex items-center justify-center">
             <Play size={40} color="#FAFAFA" />

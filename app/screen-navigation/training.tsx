@@ -141,7 +141,7 @@ export default function Training() {
   return (
     <>
       <TrainingHeader refreshPage={() => loadTrainings()} />
-      <div className="flex justify-around mt-6 mb-3">
+      <div className="flex justify-around p-5">
         {weekDays.map((weekDay, i) => (
           <div key={i} className="flex flex-col gap-">
             <h1 className="text-gray200 text-xl font-bold text-center mb-2">
@@ -167,7 +167,7 @@ export default function Training() {
       ) : (
         <>
           {categories.map((category, i) => (
-            <div className="mb-3 p-4" key={`${i}-${category}`}>
+            <div className="mb-3 p-5" key={`${i}-${category}`}>
               <div className="flex gap-2 items-center mb-3">
                 <h1 className="font-medium text-base">{category}</h1>
                 <Person size={25} color="#C4C4CC" />
