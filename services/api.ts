@@ -8,7 +8,7 @@ export function setupAPIClient(ctx = undefined) {
   const cookie = JSON.parse(cookies["@topgym.token"] || "{}");
 
   const api = axios.create({
-    baseURL: "http://localhost:3333",
+    baseURL: "https://gymserver-devjoedson91s-projects.vercel.app",
     headers: {
       Authorization: `Bearer ${cookie.token}`,
     },
