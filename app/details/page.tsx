@@ -6,6 +6,7 @@ import { Play } from "@phosphor-icons/react";
 import Image from "next/image";
 import NewExerciseForm from "./_components/new-exercise-form";
 import { Auth } from "@/hooks/auth";
+import Loading from "@/components/ui/loading";
 
 interface DetailsProps {
   searchParams: { item: string };
@@ -16,7 +17,13 @@ export default function Details({ searchParams }: DetailsProps) {
 
   const exercise: ExerciseDetailProps = JSON.parse(searchParams.item);
 
-  if (!exercise) return null;
+  if (!exercise) {
+    return (
+      <div className="flex items-center h-screen justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div>

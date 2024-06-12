@@ -12,8 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlignCenterHorizontal } from "@phosphor-icons/react";
-import { Dumbbell, Repeat } from "lucide-react";
+import { Dumbbell, Repeat, AlignCenterHorizontal } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
@@ -139,10 +138,10 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
             control={form.control}
             name="amount_series"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-4">
-                <Dumbbell size={32} color="#00875F" />
+              <FormItem className="flex items-center justify-between gap-4">
+                <Dumbbell size={35} color="#00875F" />
                 <FormLabel className="font-medium text-gray200 text-base">
-                  Séries
+                  Séries:
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -160,10 +159,10 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
             control={form.control}
             name="amount_repeat"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-4">
-                <Repeat size={32} color="#00875F" />
+              <FormItem className="flex items-center justify-between gap-4">
+                <Repeat size={35} color="#00875F" />
                 <FormLabel className="font-medium text-gray200 text-base">
-                  Repetições
+                  Repetições:
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -181,10 +180,10 @@ export default function NewExerciseForm({ exercise_id, user_id }: FormProps) {
             control={form.control}
             name="load"
             render={({ field }) => (
-              <FormItem className="flex flex-wrap items-center gap-4">
-                <AlignCenterHorizontal size={32} color="#00875F" />
+              <FormItem className="flex items-center justify-between gap-4">
+                <AlignCenterHorizontal size={35} color="#00875F" />
                 <FormLabel className="font-medium text-gray200 text-base">
-                  Carga
+                  Carga:
                 </FormLabel>
                 <FormControl>
                   <Input
